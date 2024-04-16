@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>让坦克开起来</title>
+		<style type="text/css">
+			input{font-size:26px;margin-top: 20px;}
+			body{background-image: url(img/grassland.png);}
+			#mytank{position: absolute;left:10px;top:100px}
+		</style>
+	</head>
+	<body>		
+		<img id="mytank" src="img/right.png"/>
+		<script>
+			//编写代码，让坦克能上下左右移动
+			//禁用鼠标右键
+			//获取坦克
+			let tank = document.getElementById('mytank');
+			// 获取坦克元素的初始位置
+			let tankRect = tank.getBoundingClientRect();
+			let tankLeft = tankRect.left;
+			let tankTop = tankRect.top;
+			// 向右移动, 键盘D
+			document.addEventListener('keydown', function(event) {
+			    if (event.key === 'd') {
+			        tank.src = 'img/right.png'; // 更换坦克图片
+			        if (tankLeft < window.innerWidth - tank.width) { // 检查是否到达右边界
+			            tankLeft += 10; 
+			            tank.style.left = tankLeft + 'px';
+			        }
+			    }
+			});
+			
+			// 向左移动, 键盘A
+			document.addEventListener('keydown', function(event) {
+			    if (event.key === 'a') {
+			        tank.src = 'img/left.png'; // 更换坦克图片
+			        if (tankLeft > 0) { // 检查是否到达左边界
+			            tankLeft -= 10; 
+			            tank.style.left = tankLeft + 'px';
+			        }
+			    }
+			});
+			
+			// 向上移动, 键盘W
+			document.addEventListener('keydown', function(event) {
+			    if (event.key === 'w') {
+			        tank.src = 'img/up.png'; // 更换坦克图片
+			        if (tankTop > 0) { // 检查是否到达顶部边界
+			            tankTop -= 10; 
+			            tank.style.top = tankTop + 'px';
+			        }
+			    }
+			});
+			
+			// 向下移动, 键盘S
+			document.addEventListener('keydown', function(event) {
+			    if (event.key === 's') {
+			        tank.src = 'img/down.png'; // 更换坦克图片
+			        if (tankTop < window.innerHeight - tank.height) { // 检查是否到达底部边界
+			            tankTop += 10; 
+			            tank.style.top = tankTop + 'px';
+			        }
+			    }
+			});
+
+			
+			// 阻止默认的右键行为
+			document.addEventListener('contextmenu', function(event) {
+			    event.preventDefault();
+			});
+				
+			
+		</script>
+	</body>
+</html>
