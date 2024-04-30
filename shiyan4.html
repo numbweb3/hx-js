@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>实验四</title>
+    <style>
+        #box1 {
+            background-color: pink;
+            width: 500px;
+            height: 1200px;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        #chuanqi11 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            position: fixed;
+            top: 20px; /* 调整需要固定的位置 */
+            left: 0;
+            right: 0;
+            z-index: 999; /* 保证在其他内容之上 */
+        }
+
+        #chuanqi11 img {
+            width: 300px; 
+            height: auto;
+        }
+        #chuanqi33 img{
+            width: 400px;
+            height: auto;
+        }
+        
+        /* 对联广告关闭按钮样式 */
+        .close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+        }
+
+        /* 弹窗广告关闭按钮样式 */
+        .close1 {
+            position: absolute;
+            top: -20px; /* 调整按钮的垂直位置 */
+            right: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="box1"></div>
+<div id="chuanqi11">
+    <img src="img/chuanqi1.gif" alt="chuanqi1"/>
+    <img src="img/chuanqi2.gif" alt="chuanqi2"/>
+    <span class="close">×</span> <!-- 对联广告关闭按钮 -->
+</div>
+
+<div id="chuanqi33" style="display: none; position: relative; bottom: -220px;"> <!-- 设置弹窗广告的初始位置在页面底部 -->
+    <img src="img/chuanqi3.gif" alt="chuanqi3"/>
+    <span class="close1">×</span> <!-- 弹窗广告关闭按钮 -->
+</div>
+
+<script>
+    // 关闭对联广告的功能函数
+    document.querySelector('.close').addEventListener('click', function() {
+        document.getElementById('chuanqi11').style.display = 'none';
+    });
+
+    // 弹窗广告出现
+    let popupAd = document.getElementById('chuanqi33');
+    popupAd.style.display = 'block'; // 显示弹窗广告
+
+    // 设置合适的尺寸
+    popupAd.style.width = '400px';
+    popupAd.style.height = '220px';
+    popupAd.style.position = 'fixed'; // 改为固定定位
+    popupAd.style.bottom = '10px';
+    popupAd.style.right = '10px';
+
+    
+    // 弹窗广告从底部缓慢弹出
+    let yPos = -220; // 初始位置在页面底部
+    let timer = setInterval(function() {
+    	if (yPos >= 10) {
+    		clearInterval(timer); // 当达到目标位置停止定时器
+    	} else {
+    		yPos += 5; // 每次移动的距离
+    		popupAd.style.bottom = yPos + 'px';
+    	}
+    }, 50); // 50 毫秒移动一次
+    
+    // 弹窗广告关闭按钮功能
+    document.querySelector('.close1').addEventListener('click', function() {
+    	popupAd.style.display = 'none'; // 隐藏弹窗广告
+    	setTimeout(function() {
+    		popupAd.style.display = 'block'; // 过一段时间后再次显示弹窗广告
+    	}, 2000); //（2 秒）
+    
+    });
+</script>
+</body>
+</html>
