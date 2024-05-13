@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery动画</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: black;
+        }
+        .character {
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div id="game-container">
+    <img id="pet" class="character" src="img/pet.gif">
+    <img id="player" class="character" src="img/player_right.gif"> <!-- 默认向右移动的角色 -->
+</div>
+<script>
+    $(document).ready(function(){
+        var gameContainer = $("#game-container");
+        var player = $("#player");
+        var pet = $("#pet");
+        var activeCharacter = player; // 初始设置为向右移动的角色
+
+        // 移动角色到指定位置
+        function moveCharacterTo(character, x, y, callback) {
+            character.stop().animate({left: x, top: y}, "slow", callback);
+            // 更新宠物的位置，使其保持在角色的左下角
+            pet.stop().animate({
+                left: character.position().left + character.width(),
+                top: character.position().top + character.height()
+            }, "slow", function() {
+                pet.css({
+                    left: character.position().left + character.width(),
+                    top: character.position().top + character.height()
+                });
+            });
+        }
+
+        // 鼠标点击移动当前活动的角色
+        gameContainer.on("click", function(event){
+            var newX = event.pageX - gameContainer.offset().left - activeCharacter.width()/2;
+            var newY = event.pageY - gameContainer.offset().top - activeCharacter.height()/2;
+            moveCharacterTo(activeCharacter, newX, newY);
+        });
+
+        // 双击变身角色
+        var transformed = false; // 跟踪角色是否变身
+        gameContainer.on("dblclick", function(){
+            if (!transformed) {
+                // 变身为变身的角色
+                player.attr("src", "img/player2.gif");
+                transformed = true;
+            } else {
+                // 变回默认向右移动的角色
+                player.attr("src", "img/player_right.gif");
+                transformed = false;
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
